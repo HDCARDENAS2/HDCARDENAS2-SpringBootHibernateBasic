@@ -5,11 +5,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.time.LocalDate;
-import java.time.Month;
-import java.time.ZoneId;
-import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -67,24 +62,25 @@ class UserRepositoryTest {
        
     @Test
     void testSave() {	
-    	UserEntity userEntity = UserEntity.builder().build();
-    	UserEntity userEntitySave = null; //TODO userRepository......
+    	UserEntity userEntity = UserEntity.builder().name("test").build();
+    	UserEntity userEntitySave = userRepository.save(userEntity);
+  	
     	assertThat(userEntitySave).isNotNull();
     }
     
     @Test
     void testHQLlike() {
     	String nameToFind = "cat";
-    	List<UserEntity> userList = Collections.emptyList(); //TODO userRepository......
+    	List<UserEntity> userList = userRepository.findByNameLike(nameToFind);
+    	userList.stream().map(a-> a.toString()).forEach(log::info);
     	assertEquals(1, userList.size());
     }
     
     @Test
     void testFindUsersCreatedByYear() {
     	Integer year = Integer.valueOf(2023);
-    	List<UserEntity> userList = Collections.emptyList(); //TODO userRepository......
-    	assertEquals(3, userList.size());
+    	List<UserEntity> userList = userRepository.findUsersCreatedByYear(year);
+    	assertEquals(4, userList.size());
     }
-    
-    
+        
 }
